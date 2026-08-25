@@ -254,6 +254,12 @@
     }
 }
 
+@media screen and (max-width: 360px) {
+
+    #dispensercards {
+        font-size: 1rem;
+    }
+}
 
 /* 5) - COR AMARELA - TELAS COM  LARGURA DE Até 375PX e ALTURA DE ATÉ 667PX */
 
@@ -280,6 +286,7 @@
         height: 60px;
     }
 }
+
 
 
 /* -----------------------------------------------------------------------------*/
