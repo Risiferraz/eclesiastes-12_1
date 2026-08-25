@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quebra-cabeça Eclesiastes 12:1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/media.css" />
+</head>
+
+<body>
+    <div class="stage">
+        <!-- -X-X-X-X-X- 1a PÁGINA -X-X-X-X- -->
+        <div id="capa">
+            <div id="titulo">
+                <img id="logo" src="/imagens/logo.png">
+            </div>
+            <div id="orientacoes">
+                <h2>Orientações :</h2>
+                <p>Leia e memorize o versículo que se encontra em
+                    Eclesiastes capítulo 12, versículo 1.<br>
+                    Clique e arraste a peça que está posicionada na parte inferior da tela.<br>
+                    Monte as peças de acordo com a ordem das palavras;
+                    de cima para baixo e da esquerda para a direita.<br>
+                    Clique no botão "Dispensar outra peça" para prosseguir a montagem.<br>
+                    Clique no ícone abaixo para ver a imagem montada.
+                </p>
+            </div>
+            <div id="avancar">
+                <button onclick="passar()" id="btn" type="button"> <img id="clique" src="/imagens/Clique.png"></button>
+            </div>
+        </div>
+
+        <!-- -X-X-X-X-X- 2a PÁGINA -X-X-X-X- -->
+
+        <div id="tela-inicial">
+            <img id="modelo" src="/imagens/pano-de-fundo.jpg">
+            <button id="start" onclick="clicar()">START</button>
+        </div>
+
+        <!-- -X-X-X-X-X- 3a PÁGINA -X-X-X-X- -->
+
+        <div id="jogo-em-andamento">
+            <button id="preview-final" type="button">VER TELA FINAL</button>
+            <div class="malha">
+                <div class="dropzone" id="Q1"></div>
+                <div class="dropzone" id="Q2"></div>
+                <div class="dropzone" id="Q3"></div>
+                <div class="dropzone" id="Q4"></div>
+                <div class="dropzone" id="Q5"></div>
+                <div class="dropzone" id="Q6"></div>
+                <div class="dropzone" id="Q7"></div>
+                <div class="dropzone" id="Q8"></div>
+                <div class="dropzone" id="Q9"></div>
+                <div class="dropzone" id="Q10"></div>
+                <div class="dropzone" id="Q11"></div>
+                <div class="dropzone" id="Q12"></div>
+                <div class="dropzone" id="Q13"></div>
+                <div class="dropzone" id="Q14"></div>
+                <div class="dropzone" id="Q15"></div>
+                <div class="dropzone" id="Q16"></div>
+                <div class="dropzone" id="Q17"></div>
+                <div class="dropzone" id="Q18"></div>
+                <div class="dropzone" id="Q19"></div>
+                <div class="dropzone" id="Q20"></div>
+                <div class="dropzone" id="Q21"></div>
+                <div class="dropzone" id="Q22"></div>
+                <div class="dropzone" id="Q23"></div>
+                <div class="dropzone" id="Q24"></div>
+                <div class="dropzone" id="Q25"></div>
+                <div class="dropzone" id="Q26"></div>
+            </div>
+            <div id="area-de-espera">
+                <div id="P1" class="espaco-de-espera"></div>
+                <div id="P2" class="espaco-de-espera"></div>
+                <div id="P3" class="espaco-de-espera"></div>
+                <div id="P4" class="espaco-de-espera"></div>
+                <div id="P5" class="espaco-de-espera"></div>
+            </div>
+            <div id="area-inferior">
+                <button id="dispensercards">CLIQUE AQUI PARA DISPENSAR OUTRA PEÇA</button>
+                <div class="containerpecas">
+                    <img class="card" id="lembra-te" draggable="true" src="/imagens/lembra-te2.jpg">
+                    <img class="card" id="tambem" draggable="true" src="/imagens/também.jpg">
+                    <img class="card" id="doteu" draggable="true" src="/imagens/do teu.jpg">
+                    <img class="card" id="criador" draggable="true" src="/imagens/criador.jpg">
+                    <img class="card" id="nosdias" draggable="true" src="/imagens/nosdias.jpg">
+                    <img class="card" id="datua" draggable="true" src="/imagens/da tua.jpg">
+                    <img class="card" id="mocidade" draggable="true" src="/imagens/mocidade.jpg">
+                    <img class="card" id="antes" draggable="true" src="/imagens/antes2.jpg">
+                    <img class="card" id="que" draggable="true" src="/imagens/que.jpg">
+                    <img class="card" id="venham" draggable="true" src="/imagens/venham.jpg">
+                    <img class="card" id="os" draggable="true" src="/imagens/os.jpg">
+                    <img class="card" id="maus" draggable="true" src="/imagens/maus.jpg">
+                    <img class="card" id="dias" draggable="true" src="/imagens/dias2.jpg">
+                    <img class="card" id="e" draggable="true" src="/imagens/e.jpg">
+                    <img class="card" id="cheguem" draggable="true" src="/imagens/cheguem.jpg">
+                    <img class="card" id="os2" draggable="true" src="/imagens/os2.jpg">
+                    <img class="card" id="anos" draggable="true" src="/imagens/anos.jpg">
+                    <img class="card" id="dos" draggable="true" src="/imagens/dos.jpg">
+                    <img class="card" id="quais" draggable="true" src="/imagens/quais.jpg">
+                    <img class="card" id="venhas" draggable="true" src="/imagens/venhas.jpg">
+                    <img class="card" id="dizer" draggable="true" src="/imagens/dizer2.jpg">
+                    <img class="card" id="não" draggable="true" src="/imagens/não.jpg">
+                    <img class="card" id="tenho" draggable="true" src="/imagens/tenho.jpg">
+                    <img class="card" id="neles" draggable="true" src="/imagens/neles2.jpg">
+                    <img class="card" id="contentamento" draggable="true" src="/imagens/contentamento.jpg">
+                    <img class="card" id="eclesiastes" draggable="true" src="/imagens/Eclesiastes 12.1.jpg">
+                </div>
+                <div id="marcatempo">
+                    <h5>TEMPO:</h5>
+                    <h2 id="cronometro">00:00</h2>
+                </div>
+                <div id="marcapontuacao">
+                    <h5>PONTOS:</h5>
+                    <h2 id="indicador"></h2>
+                </div>
+            </div>
+            <!-- -X-X-X-X-X- 4a PÁGINA -X-X-X-X- -->
+            <div id="jogo-finalizado">
+                <img src="/imagens/gameover.png" id="game-over">
+            </div>
+        </div>
+        <!-- MENSAGEM DE ORIENTAÇÃO LANDSCAPE -->
+        <div id="landscape-warning">
+            <div id="landscape-warning-content">
+                <h2>⚠️ Atenção!</h2>
+                <p>Para uma melhor experiência, <strong>gire seu dispositivo</strong> para a posição vertical
+                    (portrait).
+                </p>
+                <div id="rotate-icon">📱 ↻</div>
+            </div>
+        </div>
+    </div>
+    <script defer src="js/escalaDinamica.js"></script>
+    <script defer src="js/areaDeEspera.js"></script>
+    <script defer src="js/gerenciadorDeAreaDeEspera.js"></script>
+    <script defer src="js/botaoDispenserCards.js"></script>
+    <script defer src="js/cronometro.js"></script>
+    <script defer src="js/pontuacao.js"></script>
+    <script defer src="js/scriptrandom.js"></script>
+    <script defer src="js/drop.js"></script>
+    <script defer src="js/script.js"></script>
+</body>
+
+</html>

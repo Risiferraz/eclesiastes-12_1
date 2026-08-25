@@ -1,0 +1,541 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(182, 114, 13);
+}
+
+.stage {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    align-items: start;
+    justify-items: start;
+    overflow: hidden;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+/* -X-X-X-X-X- 1a PÁGINA -X-X-X-X-*/
+
+#capa {
+    background-color: rgb(33, 33, 33);
+    display: grid;
+    width: 600px;
+    height: 100vh;
+    max-height: 900px;
+    grid-template-rows: 50% 35% 15%;
+    margin: 0 auto;
+}
+
+#titulo {
+    grid-area: 1 / 1 / span 1 / span 2;
+    padding: 6% 0 0 0;
+}
+
+#logo {
+    width: 100%;
+    height: 100%;
+}
+
+#orientacoes {
+    grid-area: 2 / 1 / span 1 / span 2;
+    text-align: justify;
+    padding: 2% 6% 0 6%;
+}
+
+#avancar {
+    grid-area: 3 / 1 / span 1 / span 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    color: antiquewhite;
+    padding: 2% 6% 0 6%;
+    font-size: 1.4rem;
+    line-height: 2.7rem;
+}
+
+h5 {
+    font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    font-size: 8pt;
+    margin-bottom: 10%;
+}
+
+p {
+    color: antiquewhite;
+    font-family: "Palatino Linotype", Verdana, sans-serif;
+    line-height: 1.5rem;
+    font-size: 1.1rem;
+    padding: 0 6%;
+}
+
+#clique {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#btn {
+    width: 96px;
+    height: 108px;
+    background-color: rgb(33, 33, 33);
+    border-radius: 85px;
+    border-color: rgb(33, 33, 33);
+    position: static;
+}
+
+#btn:hover {
+    cursor: pointer;
+}
+
+/* -X-X-X-X-X- 2a PÁGINA -X-X-X-X-*/
+
+#tela-inicial {
+    background-color: rgb(33, 33, 33);
+    display: none;
+    width: 600px;
+    height: 100vh;
+    max-height: 900px;
+    position: relative;
+    margin: 0 auto;
+    padding: 2% 0;
+}
+
+#modelo {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+#start {
+    background: rgb(182, 114, 13);
+    width: 200px;
+    height: 70px;
+    font-size: 40px;
+    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    border-radius: 8px;
+    border: outset 5px rgb(252, 237, 177);
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#start:hover {
+    background-color: rgb(255, 215, 114);
+    border: outset 6px rgb(255, 254, 227);
+    cursor: pointer;
+}
+
+/* -X-X-X-X-X- 3a PÁGINA -X-X-X-X-*/
+
+#jogo-em-andamento {
+    display: none;
+    background-color: rgb(33, 33, 33);
+    position: relative;
+    width: 600px;
+    height: 100vh;
+    max-height: 900px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50% 35% 15%;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+#preview-final {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: rgb(182, 114, 13);
+    color: antiquewhite;
+    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    font-size: 14px;
+    padding: 10px 12px;
+    border: solid 3px rgb(156, 147, 147);
+    border-radius: 8px;
+    z-index: 20;
+    display: none;
+}
+
+#preview-final:hover {
+    cursor: pointer;
+}
+
+.malha {
+    grid-area: 1 / 1 / 2 / 2;
+    background-image: url("/imagens/pano-de-fundo.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+    margin: 24px auto 0 auto;
+    width: 408px;
+    height: 432px;
+    grid-template-columns: repeat(17, 24px);
+    grid-template-rows: repeat(18, 24px);
+    display: grid;
+}
+
+#Q1 {
+    grid-area: 1 / 1 / span 9 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 4px solid rgb(131, 131, 131);
+}
+
+#Q2 {
+    grid-area: 1 / 4 / span 2 / span 5;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q3 {
+    grid-area: 1 / 9 / span 2 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q4 {
+    grid-area: 1 / 12 / span 2 / span 6;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q5 {
+    grid-area: 3 / 4 / span 3 / span 4;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+/* #Q6{   !!!!ELIMINADA!!!!!
+    grid-area: 3 / 6 / span 3 / span 2;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120,120,120,0.5);
+} */
+#Q6 {
+    grid-area: 3 / 8 / span 3 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q7 {
+    grid-area: 3 / 11 / span 3 / span 7;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q8 {
+    grid-area: 6 / 4 / span 4 / span 2;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q9 {
+    grid-area: 6 / 6 / span 2 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q10 {
+    grid-area: 6 / 9 / span 3 / span 6;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q11 {
+    grid-area: 6 / 15 / span 3 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q12 {
+    grid-area: 10 / 1 / span 2 / span 5;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q13 {
+    grid-area: 8 / 6 / span 4 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q14 {
+    grid-area: 9 / 9 / span 3 / span 2;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q15 {
+    grid-area: 9 / 11 / span 3 / span 7;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q16 {
+    grid-area: 12 / 1 / span 3 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q17 {
+    grid-area: 12 / 4 / span 2 / span 4;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q18 {
+    grid-area: 12 / 8 / span 3 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q19 {
+    grid-area: 12 / 11 / span 3 / span 2;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q20 {
+    grid-area: 12 / 13 / span 3 / span 5;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q21 {
+    grid-area: 15 / 1 / span 4 / span 3;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q22 {
+    grid-area: 14 / 4 / span 2 / span 4;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q23 {
+    grid-area: 16 / 4 / span 3 / span 5;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q24 {
+    grid-area: 15 / 9 / span 4 / span 2;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q25 {
+    grid-area: 15 / 11 / span 2 / span 7;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+#Q26 {
+    grid-area: 17 / 11 / span 2 / span 7;
+    background-color: rgb(130, 130, 130);
+    border: 2px solid rgb(120, 120, 120, 0.5);
+}
+
+.dropzone {
+    opacity: 1;
+    position: relative;
+    z-index: 3;
+}
+
+#area-de-espera {
+    grid-area: 2;
+    display: grid;
+    grid-template-columns: auto auto 116px;
+    grid-template-rows: 1fr 1fr;
+    margin: 5%;
+    background-color: rgb(39, 39, 39);
+}
+
+#P5 {
+    grid-area: 1 / 3 / span 2 / span 1;
+    /* opacity: 50%; */
+}
+
+.espaco-de-espera {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#area-inferior {
+    grid-area: 3;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+}
+
+#dispensercards {
+    grid-column: 1;
+    grid-row: 1;
+    background-color: rgb(182, 114, 13);
+    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    width: 79px;
+    height: 79px;
+    border-radius: 8px;
+    border: solid 4px rgb(156, 147, 147);
+}
+
+.containerpecas {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 76px;
+    background-color: rgb(39, 39, 39);
+}
+
+.card {
+    position: absolute;
+    display: none;
+    z-index: 10;
+}
+
+.card:hover {
+    cursor: pointer;
+}
+
+.card-drop {
+    position: relative;
+    margin-top: 10px;
+}
+
+#antes {
+    width: 96px;
+    height: 48px;
+    position: absolute;
+}
+
+#dias {
+    width: 96px;
+    height: 72px;
+    position: absolute;
+}
+
+#neles {
+    width: 96px;
+    height: 48px;
+    position: absolute;
+}
+
+#dizer {
+    width: 96px;
+    height: 72px;
+    position: absolute;
+}
+
+#lembra-te {
+    width: 216px;
+    height: 72px;
+    position: absolute;
+}
+
+#marcatempo {
+    grid-column: 4;
+    grid-row: 1;
+    background-color: rgb(182, 114, 13);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    margin-right: 0;
+    padding: 5%;
+    border-radius: 8px;
+    border: solid 4px rgb(156, 147, 147);
+    z-index: 10;
+}
+
+#cronometro {
+    font-size: 20px;
+    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    text-align: center;
+    line-height: 2rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#marcapontuacao {
+    grid-column: 3;
+    grid-row: 1;
+    background-color: rgb(182, 114, 13);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    margin-right: 0;
+    padding: 5%;
+    border-radius: 8px;
+    border: solid 4px rgb(156, 147, 147);
+    z-index: 10;
+}
+
+#indicador {
+    font-size: 20px;
+    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    text-align: center;
+    line-height: 2rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#marcatempo h5,
+#marcapontuacao h5 {
+    margin: 0;
+    text-align: center;
+}
+
+#jogo-finalizado {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+#game-over {
+    width: 450px;
+    display: block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#pontuacao-final {
+    background-color: rgb(182, 114, 13);
+    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    font-size: 20px;
+    text-align: center;
+    width: 150px;
+    height: 100px;
+    border-radius: 8px;
+    border: solid 4px rgb(156, 147, 147);
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+#landscape-warning {
+    display: none;
+}
