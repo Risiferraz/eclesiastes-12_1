@@ -15,7 +15,7 @@ body {
     align-items: start;
     justify-items: start;
     overflow: hidden;
-    height: 100vh;
+    height: 100dvh;
     max-height: 100vh;
 }
 
@@ -25,7 +25,7 @@ body {
     background-color: rgb(33, 33, 33);
     display: grid;
     width: 600px;
-    height: 100vh;
+    height: 100dvh;
     max-height: 900px;
     grid-template-rows: 50% 35% 15%;
     margin: 0 auto;
@@ -101,7 +101,7 @@ p {
     background-color: rgb(33, 33, 33);
     display: none;
     width: 600px;
-    height: 100vh;
+    height: 100dvh;
     max-height: 900px;
     position: relative;
     margin: 0 auto;
@@ -141,7 +141,7 @@ p {
     background-color: rgb(33, 33, 33);
     position: relative;
     width: 600px;
-    height: 100vh;
+    height: 100dvh;
     max-height: 900px;
     grid-template-columns: 1fr;
     grid-template-rows: 50% 35% 15%;
