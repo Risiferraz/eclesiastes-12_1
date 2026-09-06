@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -119,7 +121,7 @@ p {
     width: 200px;
     height: 70px;
     font-size: 40px;
-    font-family: Impact, 'Arial Narrow Bold', sans-serif;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
     border-radius: 8px;
     border: outset 5px rgb(252, 237, 177);
     position: absolute;
