@@ -157,7 +157,7 @@ p {
     right: 12px;
     background-color: rgb(182, 114, 13);
     color: antiquewhite;
-    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
     font-size: 14px;
     padding: 10px 12px;
     border: solid 3px rgb(156, 147, 147);
@@ -384,7 +384,7 @@ p {
     grid-column: 1;
     grid-row: 1;
     background-color: rgb(182, 114, 13);
-    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
     width: 79px;
     height: 79px;
     border-radius: 8px;
@@ -468,7 +468,7 @@ p {
 
 #cronometro {
     font-size: 20px;
-    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
     text-align: center;
     line-height: 2rem;
     width: 100%;
@@ -495,7 +495,7 @@ p {
 
 #indicador {
     font-size: 20px;
-    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
     text-align: center;
     line-height: 2rem;
     width: 100%;
@@ -528,7 +528,7 @@ p {
 
 #pontuacao-final {
     background-color: rgb(182, 114, 13);
-    font-family: Impact, Verdana Bold, 'Arial Narrow', Arial;
+    font-family: 'Anton', 'Arial Narrow Bold', sans-serif;
     font-size: 20px;
     text-align: center;
     width: 150px;
