@@ -86,6 +86,47 @@ function sorteiaCardDaVez() {
 }
 //*******FUNÇÕES QUE ACONTECEM NO DRAG AND DROP *******/
 let dragged = null;
+let activePointerDrag = null;
+
+function aplicaRotacaoSeNecessario(card) {
+  if (!card) {
+    return
+  }
+
+  if (listaDeIdsParaRotacionar.includes(card.id)) {
+    const escalaMobile = window.matchMedia('(max-width: 393px)').matches ? ' scale(0.875)' : '';
+    const transformFinal = `${rotateCard}${escalaMobile}`;
+    card.style.setProperty('transform', transformFinal, 'important');
+  }
+}
+
+function processaDropNoAlvo(alvoDrop) {
+  if (!dragged) {
+    return
+  }
+
+  if (listaDeNumerosAleatoriosJaSorteados.length != quantidadeDeCards && !existeCardVisivelNoContainerPecas()) {
+    botaoDispenserCards.habilitaBotao()
+  }
+
+  if (gerenciadorDeAreaDeEspera.verificaSeCardVeioDaAreaDeEspera(dragged.id)) {
+    gerenciadorDeAreaDeEspera.removeCardDaAreaDeEspera(dragged.id)
+  }
+
+  if (alvoDrop && dragged.id == gabaritoDeDropagem[alvoDrop.id]) {
+    dragged.parentNode.removeChild(dragged);
+    alvoDrop.style.opacity = "0"
+    dragged.style.opacity = "1";
+    quantidadeDeCardsEncaixadosCorretamente++
+    pontuacao.adicionaPontuacao()
+    verificaFimDeJogo()
+  }
+  else {
+    dragged.style.display = "none"
+    pontuacao.removePontuacao(1)
+    setTimeout(() => gerenciadorDeAreaDeEspera.incluiCardNaAreaDeEspera(dragged), 200)
+  }
+}
 
 document.addEventListener("dragend", event => {
   dragged = event.target;
@@ -109,11 +150,7 @@ const listaDeIdsParaRotacionar = [
     }
   }, 0);
 
-  if (listaDeIdsParaRotacionar.includes(dragged.id)) {//Se a lista de ids inclui o id do card em questão (dragged)
-    const escalaMobile = window.matchMedia('(max-width: 393px)').matches ? ' scale(0.875)' : '';
-    const transformFinal = `${rotateCard}${escalaMobile}`;
-    dragged.style.setProperty('transform', transformFinal, 'important');
-  }
+  aplicaRotacaoSeNecessario(dragged)
 });
 
 document.addEventListener("dragover", event => {
@@ -166,29 +203,99 @@ function verificaSeAcabouOsCards() {
 
 document.addEventListener("drop", event => { 
   event.preventDefault();  // impedir a ação padrão (default) e assim permitir dropagem para elementos dragaveis)
-  if (listaDeNumerosAleatoriosJaSorteados.length != quantidadeDeCards && !existeCardVisivelNoContainerPecas()) {
-    botaoDispenserCards.habilitaBotao()
-  }
-  //mover o elemento arrastado para o destino de soltar selecionado
-  if (gerenciadorDeAreaDeEspera.verificaSeCardVeioDaAreaDeEspera(dragged.id)) {// se o gerenciador... verificar que o card veio da 'área de espera' neste caso apareça no console 'VEIO'
-    gerenciadorDeAreaDeEspera.removeCardDaAreaDeEspera(dragged.id)
-  }
-
-  //*******FUNÇÕES QUE ACONTECEM NO DROP *******/
-
-  if (dragged.id == gabaritoDeDropagem[event.target.id]) {//se o elemento arrastado corresponder (seu id) a algum constante do gabarito de dropagem
-    dragged.parentNode.removeChild(dragged);
-    event.target.style.opacity = "0" // deixa a div dropada transparente, possibilitando ver parte da imagem de fundo por baixo
-    dragged.style.opacity = "1"; //deixa o card arrastado visível novamente
-    quantidadeDeCardsEncaixadosCorretamente++ //aumenta a quantidade de cards encaixados corretamente
-    pontuacao.adicionaPontuacao()
-    verificaFimDeJogo()
-  }
-  else { // se o elemento arrastado não corresponder a algum constante do gabarito de dropagem
-    dragged.style.display = "none" //esconde o card arrastado
-    pontuacao.removePontuacao(1)
-    setTimeout(() => gerenciadorDeAreaDeEspera.incluiCardNaAreaDeEspera(dragged), 200)
-  }
+  const alvoDrop = event.target && event.target.closest ? event.target.closest('.dropzone') : null
+  processaDropNoAlvo(alvoDrop)
 });
+
+function ehPointerDeToque(event) {
+  return event.pointerType === 'touch'
+}
+
+document.addEventListener('pointerdown', (event) => {
+  if (!ehPointerDeToque(event)) {
+    return
+  }
+
+  const card = event.target.closest ? event.target.closest('.card') : null
+  if (!card || getComputedStyle(card).display === 'none') {
+    return
+  }
+
+  event.preventDefault()
+  dragged = card
+  aplicaRotacaoSeNecessario(card)
+
+  if (window.matchMedia('(max-width: 414px)').matches) {
+    document.getElementById('dispensercards').style.display = 'flex'
+  }
+
+  const rect = card.getBoundingClientRect()
+  activePointerDrag = {
+    pointerId: event.pointerId,
+    offsetX: event.clientX - rect.left,
+    offsetY: event.clientY - rect.top,
+    original: {
+      position: card.style.position,
+      left: card.style.left,
+      top: card.style.top,
+      width: card.style.width,
+      height: card.style.height,
+      zIndex: card.style.zIndex,
+      pointerEvents: card.style.pointerEvents,
+      opacity: card.style.opacity,
+      margin: card.style.margin
+    }
+  }
+
+  card.style.position = 'fixed'
+  card.style.left = `${rect.left}px`
+  card.style.top = `${rect.top}px`
+  card.style.width = `${rect.width}px`
+  card.style.height = `${rect.height}px`
+  card.style.margin = '0'
+  card.style.zIndex = '9999'
+  card.style.pointerEvents = 'none'
+  card.style.opacity = '0.95'
+}, { passive: false })
+
+document.addEventListener('pointermove', (event) => {
+  if (!activePointerDrag || activePointerDrag.pointerId !== event.pointerId || !dragged) {
+    return
+  }
+
+  event.preventDefault()
+  dragged.style.left = `${event.clientX - activePointerDrag.offsetX}px`
+  dragged.style.top = `${event.clientY - activePointerDrag.offsetY}px`
+}, { passive: false })
+
+function finalizaArrastePorToque(event) {
+  if (!activePointerDrag || activePointerDrag.pointerId !== event.pointerId || !dragged) {
+    return
+  }
+
+  event.preventDefault()
+  const elementoNoPonto = document.elementFromPoint(event.clientX, event.clientY)
+  const alvoDrop = elementoNoPonto && elementoNoPonto.closest ? elementoNoPonto.closest('.dropzone') : null
+  const cardArrastado = dragged
+
+  processaDropNoAlvo(alvoDrop)
+
+  if (cardArrastado && cardArrastado.isConnected) {
+    cardArrastado.style.position = activePointerDrag.original.position
+    cardArrastado.style.left = activePointerDrag.original.left
+    cardArrastado.style.top = activePointerDrag.original.top
+    cardArrastado.style.width = activePointerDrag.original.width
+    cardArrastado.style.height = activePointerDrag.original.height
+    cardArrastado.style.zIndex = activePointerDrag.original.zIndex
+    cardArrastado.style.pointerEvents = activePointerDrag.original.pointerEvents
+    cardArrastado.style.margin = activePointerDrag.original.margin
+    cardArrastado.style.opacity = '1'
+  }
+
+  activePointerDrag = null
+}
+
+document.addEventListener('pointerup', finalizaArrastePorToque, { passive: false })
+document.addEventListener('pointercancel', finalizaArrastePorToque, { passive: false })
 
 
