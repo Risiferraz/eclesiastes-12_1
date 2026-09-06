@@ -357,7 +357,8 @@ p {
     grid-template-columns: auto auto 116px;
     grid-template-rows: 1fr 1fr;
     margin: 5%;
-    background-color: rgb(39, 39, 39);
+    background-color: rgb(167, 7, 7);
+    /* background-color: rgb(39, 39, 39); */
 }
 
 #P5 {
