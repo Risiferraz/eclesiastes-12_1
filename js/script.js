@@ -94,7 +94,7 @@ function aplicaRotacaoSeNecessario(card) {
   }
 
   if (listaDeIdsParaRotacionar.includes(card.id)) {
-    const escalaMobile = window.matchMedia('(max-width: 393px)').matches ? ' scale(0.875)' : '';
+    // const escalaMobile = window.matchMedia('(max-width: 393px)').matches ? ' scale(0.875)' : '';
     const transformFinal = `${rotateCard}${escalaMobile}`;
     card.style.setProperty('transform', transformFinal, 'important');
   }
