@@ -220,10 +220,10 @@
         grid-template-columns: repeat(17, 21px);
         grid-template-rows: repeat(18, 21px);
     }
-/* 
+
     .card {
         transform: scale(0.875) !important;
-    } */
+    }
 
     h5 {
         font-size: 7pt;
