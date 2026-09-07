@@ -141,10 +141,10 @@ const listaDeIdsParaRotacionar = [
 ]
   document.addEventListener("dragstart", event => { //ao iniciar o arrasto de um elemento
     dragged = event.target;
-    if (window.matchMedia('(max-width: 414px)').matches) {
-      document.getElementById("dispensercards").style.display = "flex"
+    if (window.matchMedia('(max-width: 414px)').matches) { // Se a largura da tela for menor ou igual a 414px ...
+      document.getElementById("dispensercards").style.display = "flex" // ... exibe o botão "dispensercards"
     }
-  setTimeout(() => {
+  setTimeout(() => { // depois de 0ms, define a opacidade do elemento arrastado para 0 (invisível)
     if (dragged) {
       dragged.style.opacity = "0";
     }

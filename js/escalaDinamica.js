@@ -4,7 +4,6 @@
 // Ela usa apenas APIs nativas do DOM (getElementById, window.addEventListener).
 (function escalaDinamicaPagina() {
   const MAX_VISUAL_WIDTH = 800;
-  const MOBILE_BREAKPOINT = 414;
   const PAGE_IDS = ['capa', 'tela-inicial', 'jogo-em-andamento', 'jogo-finalizado'];
   let frameDeEscala = null;
 
@@ -45,11 +44,6 @@
       .filter(Boolean);
 
     if (!stageWrapper || paginas.length === 0) {
-      return;
-    }
-
-    if (window.innerWidth <= MOBILE_BREAKPOINT) {
-      paginas.forEach(limpaTransformacao);
       return;
     }
 

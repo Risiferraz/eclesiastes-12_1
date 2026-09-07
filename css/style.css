@@ -171,6 +171,7 @@ p {
 }
 
 .malha {
+    display: grid;
     grid-area: 1 / 1 / 2 / 2;
     background-image: url("/imagens/pano-de-fundo.jpg");
     background-repeat: no-repeat;
@@ -181,7 +182,7 @@ p {
     height: 432px;
     grid-template-columns: repeat(17, 24px);
     grid-template-rows: repeat(18, 24px);
-    display: grid;
+    z-index: 3;
 }
 
 #Q1 {
@@ -348,7 +349,7 @@ p {
 .dropzone {
     opacity: 1;
     position: relative;
-    z-index: 3;
+    z-index: 4;
 }
 
 #area-de-espera {
@@ -359,6 +360,7 @@ p {
     margin: 5%;
     background-color: rgb(167, 7, 7);
     /* background-color: rgb(39, 39, 39); */
+    z-index: 2;
 }
 
 #P5 {
