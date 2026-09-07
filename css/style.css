@@ -390,6 +390,8 @@ p {
     height: 79px;
     border-radius: 8px;
     border: solid 4px rgb(156, 147, 147);
+    font-size: 77%;
+    line-height: 1rem;
 }
 
 .containerpecas {
