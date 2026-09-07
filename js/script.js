@@ -62,13 +62,87 @@ function botaoDispenserCardsParaTelasPequenas(mediaQuery) {
 }
 
 const mediaQueryMax414 = window.matchMedia('(max-width: 414px)')
+const IDS_DE_PAGINA_ESCALA = ['capa', 'tela-inicial', 'jogo-em-andamento', 'jogo-finalizado']
+let frameAjusteDeCards = null
+
+function ajustaTamanhoDosCardsParaDropzonesNoMobile(mediaQuery) {
+  if (typeof gabaritoDeDropagem === 'undefined') {
+    return
+  }
+
+  Object.entries(gabaritoDeDropagem).forEach(([dropzoneId, cardId]) => {
+    const dropzone = document.getElementById(dropzoneId)
+    const card = document.getElementById(cardId)
+
+    if (!card) {
+      return
+    }
+
+    if (!mediaQuery.matches) {
+      card.style.removeProperty('width')
+      card.style.removeProperty('height')
+      return
+    }
+
+    if (!dropzone) {
+      return
+    }
+
+    const { width, height } = dropzone.getBoundingClientRect()
+
+    if (!width || !height) {
+      return
+    }
+
+    card.style.width = `${Math.round(width)}px`
+    card.style.height = `${Math.round(height)}px`
+  })
+}
+
+function agendaAjusteDeCardsNoMobile() {
+  if (frameAjusteDeCards !== null) {
+    cancelAnimationFrame(frameAjusteDeCards)
+  }
+
+  // Dois frames: o primeiro permite aplicar transformações pendentes;
+  // o segundo mede o tamanho visual final já escalado na tela.
+  frameAjusteDeCards = requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      frameAjusteDeCards = null
+      ajustaTamanhoDosCardsParaDropzonesNoMobile(mediaQueryMax414)
+    })
+  })
+}
+
 botaoDispenserCardsParaTelasPequenas(mediaQueryMax414)
-mediaQueryMax414.addEventListener('change', () => botaoDispenserCardsParaTelasPequenas(mediaQueryMax414))
+agendaAjusteDeCardsNoMobile()
+mediaQueryMax414.addEventListener('change', () => {
+  botaoDispenserCardsParaTelasPequenas(mediaQueryMax414)
+  agendaAjusteDeCardsNoMobile()
+})
+window.addEventListener('resize', agendaAjusteDeCardsNoMobile)
+window.addEventListener('load', agendaAjusteDeCardsNoMobile)
+
+const observadorDeEscalaMobile = new MutationObserver(() => {
+  agendaAjusteDeCardsNoMobile()
+})
+
+IDS_DE_PAGINA_ESCALA.forEach((id) => {
+  const pagina = document.getElementById(id)
+
+  if (pagina) {
+    observadorDeEscalaMobile.observe(pagina, {
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    })
+  }
+})
 
 //******* FUNÇÕES QUE ACONTECEM AO CLICAR NO "START" *******/
 function clicar() {
   document.getElementById("tela-inicial").style.display = "none"
   document.getElementById("jogo-em-andamento").style.display = "grid"
+  agendaAjusteDeCardsNoMobile()
   pontuacao.resetaPontuacao()
   cronometro.iniciaCronometro()
   sorteiaCardDaVez()
