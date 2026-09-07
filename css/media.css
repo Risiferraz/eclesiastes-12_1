@@ -102,6 +102,13 @@
         margin: 4px auto 0 auto;
     }
 
+    #area-de-espera {
+        height: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+
     #area-inferior {
         grid-template-columns: 14% 56% 15% 15%;
     }
