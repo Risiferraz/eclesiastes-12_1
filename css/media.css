@@ -139,6 +139,11 @@
         grid-template-columns: 60% 20% 20%;
     }
 
+    #area-de-espera {
+        margin-top: 10px;
+        min-height: 200px;
+    }
+
     #dispensercards {
         width: 80%;
         height: 70px;
