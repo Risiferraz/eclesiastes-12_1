@@ -111,6 +111,18 @@
         padding: 0 7%;
     }
 
+    #btn {
+        padding: 0;
+        border: none;
+        overflow: hidden;
+    }
+
+    #clique {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
     #tela-inicial {
         width: 100%;
     }
