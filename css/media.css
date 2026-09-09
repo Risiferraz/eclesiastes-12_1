@@ -70,6 +70,29 @@
 
 /* 3) - COR AZUL - TELAS COM  LARGURA DE 376PX A 414PX */
 
+@media screen and (max-width: 590px) {
+    #jogo-em-andamento {
+        width: 100%;
+        height: 100svh;
+        max-height: 100svh;
+        grid-template-rows: 54% 33% 13%;
+        overflow: hidden;
+    }
+
+    #area-de-espera {
+        grid-template-columns: auto auto 80px;
+        height: 95%;
+        max-height: 100%;
+        min-height: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        align-self: start;
+        overflow-x: hidden;
+        overflow-y: auto;
+        margin: 1%;
+    }
+}
+
 @media screen and (max-width: 414px) {
     #capa {
         /* background-color: blue; */
@@ -92,27 +115,8 @@
         width: 100%;
     }
 
-    #jogo-em-andamento {
-        width: 100%;
-        height: 100svh;
-        max-height: 100svh;
-        grid-template-rows: 54% 33% 13%;
-        overflow: hidden;
-    }
-
     .malha {
         margin: 4px auto 0 auto;
-    }
-
-    #area-de-espera {
-        height: 95%;
-        max-height: 100%;
-        min-height: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        align-self: stretch;
-        overflow-x: hidden;
-        overflow-y: auto;
     }
 
     #area-inferior {

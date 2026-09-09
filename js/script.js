@@ -62,7 +62,12 @@ function botaoDispenserCardsParaTelasPequenas(mediaQuery) {
 }
 
 const mediaQueryMax414 = window.matchMedia('(max-width: 414px)')
+const mediaQueryMax590 = window.matchMedia('(max-width: 590px)')
 const IDS_DE_PAGINA_ESCALA = ['capa', 'tela-inicial', 'jogo-em-andamento', 'jogo-finalizado']
+const rotateCard = "rotate(270deg)";
+const listaDeIdsParaRotacionar = [
+  "lembra-te", "neles", "dizer", "antes", "dias"
+]
 let frameAjusteDeCards = null
 
 function ajustaTamanhoDosCardsParaDropzonesNoMobile(mediaQuery) {
@@ -94,8 +99,21 @@ function ajustaTamanhoDosCardsParaDropzonesNoMobile(mediaQuery) {
       return
     }
 
-    card.style.width = `${Math.round(width)}px`
-    card.style.height = `${Math.round(height)}px`
+    const larguraDropzone = Math.round(width)
+    const alturaDropzone = Math.round(height)
+    const cardRotacionado = listaDeIdsParaRotacionar.includes(cardId)
+
+    if (cardRotacionado) {
+      // Para cards rotacionados em 270deg, inverte largura/altura base
+      // para que a caixa visual final coincida com o dropzone.
+      card.style.width = `${alturaDropzone}px`
+      card.style.height = `${larguraDropzone}px`
+      return
+    }
+
+    card.style.removeProperty('transform-origin')
+    card.style.width = `${larguraDropzone}px`
+    card.style.height = `${alturaDropzone}px`
   })
 }
 
@@ -109,7 +127,7 @@ function agendaAjusteDeCardsNoMobile() {
   frameAjusteDeCards = requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       frameAjusteDeCards = null
-      ajustaTamanhoDosCardsParaDropzonesNoMobile(mediaQueryMax414)
+      ajustaTamanhoDosCardsParaDropzonesNoMobile(mediaQueryMax590)
     })
   })
 }
@@ -120,6 +138,7 @@ mediaQueryMax414.addEventListener('change', () => {
   botaoDispenserCardsParaTelasPequenas(mediaQueryMax414)
   agendaAjusteDeCardsNoMobile()
 })
+mediaQueryMax590.addEventListener('change', agendaAjusteDeCardsNoMobile)
 window.addEventListener('resize', agendaAjusteDeCardsNoMobile)
 window.addEventListener('load', agendaAjusteDeCardsNoMobile)
 
@@ -161,6 +180,13 @@ function sorteiaCardDaVez() {
 //*******FUNÇÕES QUE ACONTECEM NO DRAG AND DROP *******/
 let dragged = null;
 let activePointerDrag = null;
+let dragImageAtiva = null;
+
+function deveCentralizarPivoNoMobile(card) {
+  return Boolean(card)
+    && mediaQueryMax414.matches
+    && listaDeIdsParaRotacionar.includes(card.id)
+}
 
 function aplicaRotacaoSeNecessario(card) {
   if (!card) {
@@ -168,10 +194,16 @@ function aplicaRotacaoSeNecessario(card) {
   }
 
   if (listaDeIdsParaRotacionar.includes(card.id)) {
-    // const escalaMobile = window.matchMedia('(max-width: 393px)').matches ? ' scale(0.875)' : '';
-    const transformFinal = `${rotateCard}${escalaMobile}`;
+    card.style.setProperty('transform-origin', 'center center', 'important');
+    card.style.setProperty('-webkit-transform-origin', 'center center', 'important');
+    const transformFinal = rotateCard
     card.style.setProperty('transform', transformFinal, 'important');
+    card.style.setProperty('-webkit-transform', transformFinal, 'important');
+    return
   }
+
+  card.style.removeProperty('transform-origin')
+  card.style.removeProperty('-webkit-transform-origin')
 }
 
 function processaDropNoAlvo(alvoDrop) {
@@ -207,14 +239,53 @@ document.addEventListener("dragend", event => {
   if (dragged) {
     dragged.style.opacity = "1";
   }
+
+  if (dragImageAtiva && dragImageAtiva.parentNode) {
+    dragImageAtiva.parentNode.removeChild(dragImageAtiva)
+  }
+  dragImageAtiva = null
   // sorteiaCardDaVez()
 });
-const rotateCard = "rotate(270deg)";
-const listaDeIdsParaRotacionar = [
-  "lembra-te", "neles", "dizer", "antes", "dias"
-]
   document.addEventListener("dragstart", event => { //ao iniciar o arrasto de um elemento
     dragged = event.target;
+    aplicaRotacaoSeNecessario(dragged)
+
+    if (deveCentralizarPivoNoMobile(dragged)) {
+      dragged.style.setProperty('transform-origin', 'center center', 'important');
+      dragged.style.setProperty('-webkit-transform-origin', 'center center', 'important');
+      dragged.style.setProperty('transform', rotateCard, 'important');
+      dragged.style.setProperty('-webkit-transform', rotateCard, 'important');
+
+      if (event.dataTransfer) {
+        const estiloComputado = window.getComputedStyle(dragged)
+        const dragImage = dragged.cloneNode(true)
+
+        dragImage.style.position = 'fixed'
+        dragImage.style.left = '-10000px'
+        dragImage.style.top = '-10000px'
+        dragImage.style.margin = '0'
+        dragImage.style.width = estiloComputado.width
+        dragImage.style.height = estiloComputado.height
+        dragImage.style.transformOrigin = 'center center'
+        dragImage.style.webkitTransformOrigin = 'center center'
+        dragImage.style.transform = rotateCard
+        dragImage.style.webkitTransform = rotateCard
+        dragImage.style.opacity = '1'
+        dragImage.style.pointerEvents = 'none'
+        dragImage.style.zIndex = '99999'
+        document.body.appendChild(dragImage)
+        dragImageAtiva = dragImage
+
+        const hotspotX = Math.round(dragImage.offsetWidth / 2)
+        const hotspotY = Math.round(dragImage.offsetHeight / 2)
+        event.dataTransfer.setDragImage(
+          dragImage,
+          hotspotX,
+          hotspotY
+        )
+      }
+    }
+
     if (window.matchMedia('(max-width: 414px)').matches) { // Se a largura da tela for menor ou igual a 414px ...
       document.getElementById("dispensercards").style.display = "flex" // ... exibe o botão "dispensercards"
     }
@@ -223,8 +294,6 @@ const listaDeIdsParaRotacionar = [
       dragged.style.opacity = "0";
     }
   }, 0);
-
-  aplicaRotacaoSeNecessario(dragged)
 });
 
 document.addEventListener("dragover", event => {
@@ -281,11 +350,11 @@ document.addEventListener("drop", event => {
   processaDropNoAlvo(alvoDrop)
 });
 
-function ehPointerDeToque(event) {
+function ehPointerDeToque(event) { // para verificar se o evento de ponteiro é do tipo "touch" (toque na tela)
   return event.pointerType === 'touch'
 }
 
-document.addEventListener('pointerdown', (event) => {
+document.addEventListener('pointerdown', (event) => { // garante que o restante do código dentro do pointerdown só seja executado quando a interação for feita com o dedo na tela (touchscreen).
   if (!ehPointerDeToque(event)) {
     return
   }
@@ -304,10 +373,20 @@ document.addEventListener('pointerdown', (event) => {
   }
 
   const rect = card.getBoundingClientRect()
+  const estiloComputadoCard = window.getComputedStyle(card)
+  const centralizaPivoNoToque = deveCentralizarPivoNoMobile(card)
+
+  if (centralizaPivoNoToque) {
+    card.style.setProperty('transform-origin', 'center center', 'important')
+    card.style.setProperty('-webkit-transform-origin', 'center center', 'important')
+    card.style.setProperty('transform', rotateCard, 'important')
+    card.style.setProperty('-webkit-transform', rotateCard, 'important')
+  }
+
   activePointerDrag = {
     pointerId: event.pointerId,
-    offsetX: event.clientX - rect.left,
-    offsetY: event.clientY - rect.top,
+    offsetX: centralizaPivoNoToque ? rect.width / 2 : event.clientX - rect.left,
+    offsetY: centralizaPivoNoToque ? rect.height / 2 : event.clientY - rect.top,
     original: {
       position: card.style.position,
       left: card.style.left,
@@ -322,10 +401,16 @@ document.addEventListener('pointerdown', (event) => {
   }
 
   card.style.position = 'fixed'
-  card.style.left = `${rect.left}px`
-  card.style.top = `${rect.top}px`
-  card.style.width = `${rect.width}px`
-  card.style.height = `${rect.height}px`
+  if (centralizaPivoNoToque) {
+    card.style.left = `${event.clientX - (rect.width / 2)}px`
+    card.style.top = `${event.clientY - (rect.height / 2)}px`
+  }
+  else {
+    card.style.left = `${rect.left}px`
+    card.style.top = `${rect.top}px`
+  }
+  card.style.width = estiloComputadoCard.width
+  card.style.height = estiloComputadoCard.height
   card.style.margin = '0'
   card.style.zIndex = '9999'
   card.style.pointerEvents = 'none'
@@ -335,6 +420,13 @@ document.addEventListener('pointerdown', (event) => {
 document.addEventListener('pointermove', (event) => {
   if (!activePointerDrag || activePointerDrag.pointerId !== event.pointerId || !dragged) {
     return
+  }
+
+  if (deveCentralizarPivoNoMobile(dragged)) {
+    dragged.style.setProperty('transform-origin', 'center center', 'important')
+    dragged.style.setProperty('-webkit-transform-origin', 'center center', 'important')
+    dragged.style.setProperty('transform', rotateCard, 'important')
+    dragged.style.setProperty('-webkit-transform', rotateCard, 'important')
   }
 
   event.preventDefault()
